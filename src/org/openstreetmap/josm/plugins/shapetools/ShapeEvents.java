@@ -135,6 +135,7 @@ public class ShapeEvents {
 					wayList.add(way);
 				}
 				ShapeMath.align(wayList.get(0), wayList.get(1));
+				ShapeMode.cleanup();
 			}
 		};
 	}
@@ -171,6 +172,7 @@ public class ShapeEvents {
 						Collection<Way> selectedWays = data.getSelectedWays();
 						for (Way way : selectedWays) {
 							ShapeMath.alignUsingEpsilon(road.segment, way, epsilon);
+							ShapeMode.cleanup();
 							Main.map.repaint();
 						}
 					} else {
@@ -261,6 +263,7 @@ public class ShapeEvents {
 						System.out.println("AlignButtonPressed, non-null parameters found");
 						// Way rotatingWay = secondSegment.way;
 						ShapeMath.align(road.getSegment(), building.getSegment());
+						ShapeMode.cleanup();
 					} else {
 						System.out.println("NULL PARAMETERS FOUND");
 					}

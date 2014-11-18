@@ -9,7 +9,7 @@
     <property name="plugin.class" value="org.openstreetmap.josm.plugins.shapetools.ShapeToolsPlugin"/>
     <property name="plugin.description" value="ShapeTools"/>
     <property name="plugin.icon" value="images/dxfIcon.png"/>
-    <property name="plugin.link" value="http://wiki.openstreetmap.org/wiki/JOSM/Plugins/ImportDxf"/>
+    <property name="plugin.link" value="http://wiki.openstreetmap.org/wiki/JOSM/Plugins/ShapeTools"/>
 
     <!-- ** include targets that all plugins have in common ** -->
     <import file="../build-common.xml"/>
