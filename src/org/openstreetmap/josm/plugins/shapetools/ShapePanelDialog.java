@@ -33,7 +33,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		gbl_dialogPane.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		dialogPane.setLayout(gbl_dialogPane);
 
-		JLabel lblRotateMode = new JLabel("Rotate Mode:");
+		JLabel lblRotateMode = new JLabel(tr("Rotate Mode:"));
 		GridBagConstraints gbc_lblRotateMode = new GridBagConstraints();
 		gbc_lblRotateMode.gridwidth = 4;
 		gbc_lblRotateMode.insets = new Insets(0, 0, 5, 5);
@@ -41,7 +41,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		gbc_lblRotateMode.gridy = 2;
 		dialogPane.add(lblRotateMode, gbc_lblRotateMode);
 
-		JComboBox<String> directionComboBox = new JComboBox<String>(new String[] { "Clockwise", "CounterClockwise" });
+		JComboBox<String> directionComboBox = new JComboBox<String>(new String[] { tr("Clockwise"), tr("Counter Clockwise") });
 
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 6;
@@ -51,7 +51,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		gbc_comboBox.gridy = 2;
 		dialogPane.add(directionComboBox, gbc_comboBox);
 
-		JTextField angleInput = new JTextField("Input angle here");
+		JTextField angleInput = new JTextField(tr("Input angle here"));
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -60,7 +60,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		dialogPane.add(angleInput, gbc_textField);
 		angleInput.setColumns(10);
 
-		JButton rotButton = new JButton("Rotate");
+		JButton rotButton = new JButton(tr("Rotate"));
 		GridBagConstraints gbc_btnDoRotate = new GridBagConstraints();
 		gbc_btnDoRotate.anchor = GridBagConstraints.WEST;
 		gbc_btnDoRotate.insets = new Insets(0, 0, 5, 5);
@@ -69,7 +69,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		rotButton.addMouseListener((MouseListener) ShapeEvents.getInstance().getRotateEvent(directionComboBox, angleInput));
 		dialogPane.add(rotButton, gbc_btnDoRotate);
 
-		JButton alignButton = new JButton("Align building ");
+		JButton alignButton = new JButton(tr("Align building "));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
 		gbc_btnNewButton.anchor = GridBagConstraints.WEST;
 		gbc_btnNewButton.insets = new Insets(0, 0, 5, 5);
@@ -78,7 +78,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		alignButton.addMouseListener((MouseListener) ShapeEvents.getInstance().getAlignBuildingEvent());
 		dialogPane.add(alignButton, gbc_btnNewButton);
 
-		JRadioButton radioBtnBuilding = new JRadioButton("Select building");
+		JRadioButton radioBtnBuilding = new JRadioButton(tr("Select building"));
 		GridBagConstraints gbc_radioButton = new GridBagConstraints();
 		gbc_radioButton.anchor = GridBagConstraints.NORTHWEST;
 		gbc_radioButton.gridwidth = 4;
@@ -88,7 +88,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		radioBtnBuilding.setMnemonic(0);
 		dialogPane.add(radioBtnBuilding, gbc_radioButton);
 
-		JRadioButton radioBtnRoad = new JRadioButton("Select road");
+		JRadioButton radioBtnRoad = new JRadioButton(tr("Select road"));
 		GridBagConstraints gbc_radioBtnRoad = new GridBagConstraints();
 		gbc_radioBtnRoad.anchor = GridBagConstraints.NORTHWEST;
 		gbc_radioBtnRoad.gridwidth = 4;
@@ -98,7 +98,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		radioBtnRoad.setMnemonic(1);
 		dialogPane.add(radioBtnRoad, gbc_radioBtnRoad);
 
-		JRadioButton rdbtnNothing = new JRadioButton("Select none");
+		JRadioButton rdbtnNothing = new JRadioButton(tr("Select none"));
 		GridBagConstraints gbc_rdbtnNothing = new GridBagConstraints();
 		gbc_rdbtnNothing.anchor = GridBagConstraints.NORTHWEST;
 		gbc_rdbtnNothing.gridwidth = 4;
@@ -115,14 +115,14 @@ public class ShapePanelDialog extends ToggleDialog {
 		group.add(rdbtnNothing);
 		ShapeMode.setRadioGroup(group);
 
-		JLabel labelEpsilon = new JLabel("Epsilon:");
+		JLabel labelEpsilon = new JLabel(tr("Min Distance:"));
 		GridBagConstraints gbc_lblEpsilon = new GridBagConstraints();
 		gbc_lblEpsilon.insets = new Insets(0, 0, 5, 5);
 		gbc_lblEpsilon.gridx = 4;
 		gbc_lblEpsilon.gridy = 7;
 		dialogPane.add(labelEpsilon, gbc_lblEpsilon);
 
-		JTextField epsilonInput = new JTextField("Input epsilon here");
+		JTextField epsilonInput = new JTextField(tr("Input min distance"));
 		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
 		gbc_textField_1.gridwidth = 5;
 		gbc_textField_1.insets = new Insets(0, 0, 5, 5);
@@ -132,7 +132,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		dialogPane.add(epsilonInput, gbc_textField_1);
 		epsilonInput.setColumns(10);
 
-		JButton btnAlignAll = new JButton("Align all buildings");
+		JButton btnAlignAll = new JButton(tr("Align all buildings"));
 		GridBagConstraints gbc_btnAlignBuilding = new GridBagConstraints();
 		gbc_btnAlignBuilding.anchor = GridBagConstraints.WEST;
 		gbc_btnAlignBuilding.insets = new Insets(0, 0, 5, 5);
@@ -141,7 +141,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		btnAlignAll.addMouseListener((MouseListener) ShapeEvents.getInstance().getAlignAllBuildings(epsilonInput));
 		dialogPane.add(btnAlignAll, gbc_btnAlignBuilding);
 
-		JButton btnDeleteOverlay = new JButton("Delete overlay");
+		JButton btnDeleteOverlay = new JButton(tr("Delete overlay"));
 		GridBagConstraints gbc_btnDeleteOverlay = new GridBagConstraints();
 		gbc_btnDeleteOverlay.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDeleteOverlay.gridx = 13;
