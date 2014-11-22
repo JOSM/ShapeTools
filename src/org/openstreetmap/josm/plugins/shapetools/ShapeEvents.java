@@ -112,19 +112,15 @@ public class ShapeEvents {
 			@Override
 			public void mouseReleased(MouseEvent e) {
 			}
-
 			@Override
 			public void mousePressed(MouseEvent e) {
 			}
-
 			@Override
 			public void mouseExited(MouseEvent e) {
 			}
-
 			@Override
 			public void mouseEntered(MouseEvent e) {
 			}
-
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				OsmDataLayer currentLayer = Main.main.getEditLayer();

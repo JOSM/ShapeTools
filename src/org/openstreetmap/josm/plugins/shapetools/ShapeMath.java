@@ -229,7 +229,11 @@ public class ShapeMath {
 		}
 		return commands;
 	}
-
+/**
+ * Aligns second way to the first one
+ * @param firstWay
+ * @param secondWay
+ */
 	public static void align(Way firstWay, Way secondWay) {
 		double x1 = firstWay.getNode(0).getEastNorth().getX();
 		double x2 = firstWay.getNode(1).getEastNorth().getX();
