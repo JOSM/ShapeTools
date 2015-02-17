@@ -204,16 +204,10 @@ public class ShapeEvents {
 
 				ShapeMode mode = ShapeToolsPlugin.getMode();
 				if (mode != null) {
-					// WaySegment firstSegment = mode.firstSegment;
-					// WaySegment secondSegment = mode.secondSegment;
 					DrawableSegmentBuilding building = ShapeMode.buildingSegm;
 					DrawableSegmentRoad road = ShapeMode.roadSegm;
 					if (building != null && road != null) {
 						System.out.println("NearestSegment button pressed, non-null parameters found");
-						// Way rotatingWay = secondSegment.way;
-						// ShapeMath.align(road.getSegment(),
-						// building.getSegment());
-
 						WaySegment segm = ShapeMath.getClosestSegment(building.getSegment().way, road.segment);
 						DrawableSegment dSegm = new DrawableSegment(segm, Color.magenta);
 						System.out.println("closest nodes" + segm.getFirstNode() + " " + segm.getSecondNode());
@@ -251,13 +245,10 @@ public class ShapeEvents {
 			public void mouseClicked(MouseEvent e) {
 				ShapeMode mode = ShapeToolsPlugin.getMode();
 				if (mode != null) {
-					// WaySegment firstSegment = mode.firstSegment;
-					// WaySegment secondSegment = mode.secondSegment;
 					DrawableSegmentBuilding building = ShapeMode.buildingSegm;
 					DrawableSegmentRoad road = ShapeMode.roadSegm;
 					if (building != null && road != null) {
 						System.out.println("AlignButtonPressed, non-null parameters found");
-						// Way rotatingWay = secondSegment.way;
 						ShapeMath.align(road.getSegment(), building.getSegment());
 						ShapeMode.cleanup();
 					} else {

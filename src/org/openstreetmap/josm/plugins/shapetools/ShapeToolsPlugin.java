@@ -16,14 +16,11 @@ import org.openstreetmap.josm.plugins.PluginInformation;
 public class ShapeToolsPlugin extends Plugin {
 	private static ShapeMode shMode;
 	private static ShapePanelDialog sDialog;
-	// private static IconToggleButton oButton;
-	// private static ShapeToolsAction act;
 	@SuppressWarnings("unused")
 	private static IconToggleButton optButton;
 
 	public ShapeToolsPlugin(PluginInformation info) {
 		super(info);
-		// act = new ShapeToolsAction();
 		sDialog = new ShapePanelDialog();
 	}
 
@@ -49,11 +46,7 @@ public class ShapeToolsPlugin extends Plugin {
 	public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
 		if (newFrame != null) {
 			System.out.println("MAP FRAME INIT");
-			// oButton = new IconToggleButton(act); // oButton is the button that appears on the left-hand-side of the screen, adds a panel to the right
-			// oButton.setVisible(true);
-			// newFrame.addMapMode(oButton);
-			// sDialog = new ShapePanelDialog(); // initialising a panel to display on the right
-			optButton = newFrame.addToggleDialog(sDialog); // i have no idea why this works, but it's the thing that does the magic, adds the button the left
+			optButton = newFrame.addToggleDialog(sDialog);
 			shMode = new ShapeMode(Main.map);
 			shMode.enterMode();
 		} else {

@@ -17,12 +17,16 @@ import javax.swing.JTextField;
 
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
 
+/**
+ * Main dialog for the plugin, toggles when the plugin is loaded
+ * @author Adrian_antochi
+ *
+ */
 public class ShapePanelDialog extends ToggleDialog {
 	JPanel dialogPane;
 
 	public ShapePanelDialog() {
 		super(tr("Shape actions panel"), "shapePanelButton.png", tr("Shape mode control panel"),
-		// image resides in images/dialogs folder. because yes
 				null, 70);
 		JPanel dialogPane = new JPanel();
 		GridBagLayout gbl_dialogPane = new GridBagLayout();

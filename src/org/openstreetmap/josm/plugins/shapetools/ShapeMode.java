@@ -23,8 +23,6 @@ public class ShapeMode extends MapMode {
 
 	public ShapeMode(MapFrame mapFrame) {
 		super("ShapeMode", "mode.png", "shapeModeTooltip", mapFrame, Cursor.getDefaultCursor());
-		// IMAGE RESIDES IN THE IMAGES/MAPMODE FOLDER.
-		// THAT'S THE WAY JOSM LIKES TO TORTURE ME
 		thisMapFrame = mapFrame;
 	}
 
@@ -40,9 +38,6 @@ public class ShapeMode extends MapMode {
 		if (e.getButton() == MouseEvent.BUTTON1) {
 			boolean ctrlPressed = (e.getModifiers() & ActionEvent.CTRL_MASK) != 0;
 			boolean altPressed = (e.getModifiers() & (ActionEvent.ALT_MASK | InputEvent.ALT_GRAPH_MASK)) != 0;
-			// System.out.println("MOUSE CLIKED x = " + e.getX() + ", y = "
-			// + e.getY() + ", is ctrl pressed:" + ctrlPressed
-			// + ", is alt pressed:" + altPressed);
 
 			WaySegment selectedSegment = Main.map.mapView.getNearestWaySegment(new java.awt.Point(e.getX(), e.getY()), OsmPrimitive.isUsablePredicate);
 			if (group != null) {
