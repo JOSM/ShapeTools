@@ -170,21 +170,6 @@ public final class ShapeMath {
     }
 
     /**
-     * @return center-point of a list of ways
-     */
-    public static EastNorth getCentroid(List<Way> wayList) {
-        double x = 0, y = 0;
-        for (int i = 0; i < wayList.size(); i++) {
-            EastNorth currentCenter = getCentroid(wayList.get(i));
-            x += currentCenter.getX();
-            y += currentCenter.getY();
-        }
-        x = x / wayList.size();
-        y = y / wayList.size();
-        return new EastNorth(x, y);
-    }
-
-    /**
      * @return center-point of a set of nodes
      */
     public static EastNorth getCentroid(Set<Node> nodes) {
@@ -271,30 +256,6 @@ public final class ShapeMath {
         requiredAngle = normalise(requiredAngle);
         SequenceCommand commands = new SequenceCommand("AlignCommand",
                 rotate(toRotateSegment.way, requiredAngle, getCentroid(toRotateSegment.way)));
-        Main.main.undoRedo.add(commands);
-        Main.map.repaint();
-    }
-
-    /**
-     * Aligns a way to a segment, mostly used to align a building to a road segment
-     */
-    public static void align(WaySegment roadSegment, Way building) {
-        WaySegment closestSegment = ShapeMath.getClosestSegment(building, roadSegment);
-        double x1 = roadSegment.getFirstNode().getEastNorth().getX();
-        double x2 = roadSegment.getSecondNode().getEastNorth().getX();
-        double x3 = closestSegment.getFirstNode().getEastNorth().getX();
-        double x4 = closestSegment.getSecondNode().getEastNorth().getX();
-        double y1 = roadSegment.getFirstNode().getEastNorth().getY();
-        double y2 = roadSegment.getSecondNode().getEastNorth().getY();
-        double y3 = closestSegment.getFirstNode().getEastNorth().getY();
-        double y4 = closestSegment.getSecondNode().getEastNorth().getY();
-
-        double requiredAngle = Math.atan2(y2 - y1, x2 - x1) - Math.atan2(y4 - y3, x4 - x3);
-        System.out.println("Angle calculated from align() " + requiredAngle);
-
-        requiredAngle = normalise(requiredAngle);
-
-        SequenceCommand commands = new SequenceCommand("aligningBuilding", rotate(building, requiredAngle, getCentroid(building)));
         Main.main.undoRedo.add(commands);
         Main.map.repaint();
     }

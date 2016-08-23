@@ -20,10 +20,6 @@ public class Point {
         this.y = y;
     }
 
-    public static double distance(Point x1, Point x2) {
-        return Math.sqrt(Math.pow(x2.x - x1.x, 2) + Math.pow(x2.y - x1.y, 2)); // always positive
-    }
-
     public static double distance(Point lineX1, Point lineX2, Point p) {
         double A = p.x - lineX1.x;
         double B = p.y - lineX1.y;

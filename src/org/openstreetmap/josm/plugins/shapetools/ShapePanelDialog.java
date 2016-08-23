@@ -23,8 +23,10 @@ import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
  *
  */
 public class ShapePanelDialog extends ToggleDialog {
-    JPanel dialogPane;
 
+    /**
+     * Constructs a new {@code ShapePanelDialog}.
+     */
     public ShapePanelDialog() {
         super(tr("Shape actions panel"), "shapePanelButton.png", tr("Shape mode control panel"),
                 null, 70);

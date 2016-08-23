@@ -15,16 +15,16 @@ import org.openstreetmap.josm.data.osm.WaySegment;
 import org.openstreetmap.josm.gui.MapFrame;
 
 public class ShapeMode extends MapMode {
-    MapFrame thisMapFrame;
-    WaySegment firstSegment;
-    WaySegment secondSegment;
     static ButtonGroup group;
     static DrawableSegmentBuilding buildingSegm;
     static DrawableSegmentRoad roadSegm;
 
+    /**
+     * Constructs a new {@code ShapeMode}.
+     * @param mapFrame map frame
+     */
     public ShapeMode(MapFrame mapFrame) {
         super("ShapeMode", "mode.png", "shapeModeTooltip", mapFrame, Cursor.getDefaultCursor());
-        thisMapFrame = mapFrame;
     }
 
     @Override

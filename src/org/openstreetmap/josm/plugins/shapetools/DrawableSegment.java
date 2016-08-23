@@ -16,7 +16,6 @@ import org.openstreetmap.josm.gui.layer.MapViewPaintable;
 /**
  * Base class used for adding colored segments on map as temporary MapViewPaintables
  * @author Adrian_antochi
- *
  */
 public class DrawableSegment implements MapViewPaintable {
 
@@ -24,6 +23,10 @@ public class DrawableSegment implements MapViewPaintable {
     protected Color color;
     protected Stroke stroke;
 
+    /**
+     * Constructs a new {@code DrawableSegment}.
+     * @param segment way segment
+     */
     public DrawableSegment(WaySegment segment) {
         int strokeThickness = 3;
         this.segment = segment;
@@ -31,6 +34,11 @@ public class DrawableSegment implements MapViewPaintable {
         this.stroke = new BasicStroke(strokeThickness);
     }
 
+    /**
+     * Constructs a new {@code DrawableSegment}.
+     * @param segment way segment
+     * @param color color
+     */
     public DrawableSegment(WaySegment segment, Color color) {
         int strokeThickness = 3;
         this.segment = segment;
@@ -41,8 +49,8 @@ public class DrawableSegment implements MapViewPaintable {
     @Override
     public void paint(Graphics2D g, MapView mv, Bounds bbox) {
         if (segment != null) {
-            g.setColor(this.color);
-            g.setStroke(this.stroke);
+            g.setColor(color);
+            g.setStroke(stroke);
             Node firstNode = segment.getFirstNode();
             Node secondNode = segment.getSecondNode();
 
@@ -67,7 +75,6 @@ public class DrawableSegment implements MapViewPaintable {
     }
 
     public WaySegment getSegment() {
-        return this.segment;
+        return segment;
     }
-
 }

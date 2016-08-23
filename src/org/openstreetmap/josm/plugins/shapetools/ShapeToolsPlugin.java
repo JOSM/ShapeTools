@@ -20,7 +20,11 @@ public class ShapeToolsPlugin extends Plugin {
     @SuppressWarnings("unused")
     private static IconToggleButton optButton;
 
-    public ShapeToolsPlugin(PluginInformation info) {
+    /**
+     * Constructs a new {@code ShapeToolsPlugin}.
+     * @param info plugin information
+     */
+    public ShapeToolsPlugin(PluginInformation info) { // NO_UCD (unused code)
         super(info);
         sDialog = new ShapePanelDialog();
     }
