@@ -123,7 +123,7 @@ public class ShapeEvents {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				OsmDataLayer currentLayer = Main.main.getEditLayer();
+				OsmDataLayer currentLayer = Main.getLayerManager().getEditLayer();
 				DataSet data = currentLayer.data;
 				Collection<Way> selectedWays = data.getSelectedWays();
 				List<Way> wayList = new ArrayList<Way>();
@@ -163,7 +163,7 @@ public class ShapeEvents {
 					if (road != null) {
 						System.out.println("AlignAllBuildings button pressed, non-null parameters found");
 						double epsilon = Double.parseDouble(epsilonInput.getText());
-						OsmDataLayer currentLayer = Main.main.getEditLayer();
+						OsmDataLayer currentLayer = Main.getLayerManager().getEditLayer();
 						DataSet data = currentLayer.data;
 						Collection<Way> selectedWays = data.getSelectedWays();
 						for (Way way : selectedWays) {
@@ -292,7 +292,7 @@ public class ShapeEvents {
 					System.out.println("CANNOT CONVERT JTEXT INPUT TO ANGLE");
 					ex.printStackTrace();
 				}
-				OsmDataLayer currentLayer = Main.main.getEditLayer();
+				OsmDataLayer currentLayer = Main.getLayerManager().getEditLayer();
 				DataSet data = currentLayer.data;
 				Collection<Node> selectedNodes = data.getSelectedNodes();
 				Collection<Way> selectedWays = data.getSelectedWays();
