@@ -82,27 +82,10 @@ public final class ShapeEvents {
     }
 
     private void initCleanup() {
-        this.cleanup = new MouseListener() {
+        this.cleanup = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ShapeMode.cleanup();
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
             }
         };
     }
@@ -153,26 +136,9 @@ public final class ShapeEvents {
     }
 
     private void initNearestSegment() {
-        nearestSegment = new MouseListener() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
+        nearestSegment = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
                 ShapeMode mode = ShapeToolsPlugin.getMode();
                 if (mode != null) {
                     DrawableSegmentBuilding building = ShapeMode.buildingSegm;
@@ -195,23 +161,7 @@ public final class ShapeEvents {
     }
 
     private void initAlignBuilding() {
-        alignBuilding = new MouseListener() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
+        alignBuilding = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 ShapeMode mode = ShapeToolsPlugin.getMode();
