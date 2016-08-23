@@ -39,7 +39,7 @@ public class ShapeMode extends MapMode {
 			boolean ctrlPressed = (e.getModifiers() & ActionEvent.CTRL_MASK) != 0;
 			boolean altPressed = (e.getModifiers() & (ActionEvent.ALT_MASK | InputEvent.ALT_GRAPH_MASK)) != 0;
 
-			WaySegment selectedSegment = Main.map.mapView.getNearestWaySegment(new java.awt.Point(e.getX(), e.getY()), OsmPrimitive.isUsablePredicate);
+			WaySegment selectedSegment = Main.map.mapView.getNearestWaySegment(new java.awt.Point(e.getX(), e.getY()), OsmPrimitive::isUsable);
 			if (group != null) {
 				switch (group.getSelection().getMnemonic()) {
 				case 0:
