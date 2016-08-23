@@ -45,7 +45,7 @@ public class ShapePanelDialog extends ToggleDialog {
 		gbc_lblRotateMode.gridy = 2;
 		dialogPane.add(lblRotateMode, gbc_lblRotateMode);
 
-		JComboBox<String> directionComboBox = new JComboBox<String>(new String[] { tr("Clockwise"), tr("Counter Clockwise") });
+		JComboBox<String> directionComboBox = new JComboBox<>(new String[] { tr("Clockwise"), tr("Counter Clockwise") });
 
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.gridwidth = 6;

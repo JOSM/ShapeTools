@@ -95,14 +95,14 @@ public class ShapeMath {
  * @return a Collection of Commands
  */
 	private static Collection<Command> rotate(Way way, double angle, EastNorth center) {
-		Set<Node> nodesSet = new HashSet<Node>();
+		Set<Node> nodesSet = new HashSet<>();
 		List<Node> wayNodes = way.getNodes();
 		for (Node node : wayNodes) {
 			nodesSet.add(node);
 		}
 		EastNorth allNodesCenter = ShapeMath.getCentroid(nodesSet);
 		Iterator<Node> it = nodesSet.iterator();
-		Collection<Command> totalCommands = new ArrayList<Command>();
+		Collection<Command> totalCommands = new ArrayList<>();
 		while (it.hasNext()) {
 			totalCommands.add(rotate(it.next(), angle, allNodesCenter));
 		}
@@ -211,7 +211,7 @@ public class ShapeMath {
 
 	private static Collection<Command> avoidDuplicateNodesRotation(Collection<Way> ways, Collection<Node> nodes, double angle) {
 		System.out.println("doRotate() called: rotating shapes by: " + angle);
-		Set<Node> nodesSet = new HashSet<Node>();
+		Set<Node> nodesSet = new HashSet<>();
 		for (Way way : ways) {
 			List<Node> wayNodes = way.getNodes();
 			for (Node node : wayNodes) {
@@ -223,7 +223,7 @@ public class ShapeMath {
 		}
 		EastNorth allNodesCenter = ShapeMath.getCentroid(nodesSet);
 		Iterator<Node> i = nodesSet.iterator();
-		Collection<Command> commands = new ArrayList<Command>();
+		Collection<Command> commands = new ArrayList<>();
 		while (i.hasNext()) {
 			commands.add(rotate(i.next(), angle, allNodesCenter));
 		}

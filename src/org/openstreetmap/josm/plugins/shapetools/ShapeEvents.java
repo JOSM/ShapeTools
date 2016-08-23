@@ -126,7 +126,7 @@ public class ShapeEvents {
 				OsmDataLayer currentLayer = Main.getLayerManager().getEditLayer();
 				DataSet data = currentLayer.data;
 				Collection<Way> selectedWays = data.getSelectedWays();
-				List<Way> wayList = new ArrayList<Way>();
+				List<Way> wayList = new ArrayList<>();
 				for (Way way : selectedWays) {
 					wayList.add(way);
 				}

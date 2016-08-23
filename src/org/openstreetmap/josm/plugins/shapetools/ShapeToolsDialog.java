@@ -28,7 +28,7 @@ public class ShapeToolsDialog extends JPanel { // Temporarily not used
 	public ShapeToolsDialog() {
 		currentNodeList = null;
 		angleInput = new JTextField();
-		directionComboBox = new JComboBox<String>(new String[] { "Clockwise", "AntiClockwise" });
+		directionComboBox = new JComboBox<>(new String[] { "Clockwise", "AntiClockwise" });
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		rotButton = new JButton("Rotate");
 		centrButton = new JButton("DrawCenter");
