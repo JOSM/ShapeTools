@@ -1,3 +1,4 @@
+// License: GPL. For details, see LICENSE file.
 package org.openstreetmap.josm.plugins.shapetools;
 
 import java.awt.Color;
@@ -8,10 +9,10 @@ import org.openstreetmap.josm.data.osm.WaySegment;
  * @author Adrian_antochi
  *
  */
-public class DrawableSegmentBuilding extends DrawableSegment{
-	
-	public DrawableSegmentBuilding(WaySegment segment) {
-		super(segment);
-		this.color = Color.GREEN;
-	}
+public class DrawableSegmentBuilding extends DrawableSegment {
+
+    public DrawableSegmentBuilding(WaySegment segment) {
+        super(segment);
+        this.color = Color.GREEN;
+    }
 }

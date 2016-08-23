@@ -1,3 +1,4 @@
+// License: GPL. For details, see LICENSE file.
 package org.openstreetmap.josm.plugins.shapetools;
 
 import java.awt.BasicStroke;
@@ -19,52 +20,54 @@ import org.openstreetmap.josm.gui.layer.MapViewPaintable;
  */
 public class DrawableSegment implements MapViewPaintable {
 
-	protected WaySegment segment;
-	protected Color color;
-	protected Stroke stroke;
+    protected WaySegment segment;
+    protected Color color;
+    protected Stroke stroke;
 
-	public DrawableSegment(WaySegment segment) {
-		int strokeThickness = 3;
-		this.segment = segment;
-		this.color = Color.WHITE;
-		this.stroke = new BasicStroke(strokeThickness);
-	}
+    public DrawableSegment(WaySegment segment) {
+        int strokeThickness = 3;
+        this.segment = segment;
+        this.color = Color.WHITE;
+        this.stroke = new BasicStroke(strokeThickness);
+    }
 
-	public DrawableSegment(WaySegment segment, Color color) {
-		int strokeThickness = 3;
-		this.segment = segment;
-		this.color = color;
-		this.stroke = new BasicStroke(strokeThickness);
-	}
+    public DrawableSegment(WaySegment segment, Color color) {
+        int strokeThickness = 3;
+        this.segment = segment;
+        this.color = color;
+        this.stroke = new BasicStroke(strokeThickness);
+    }
 
-	@Override
-	public void paint(Graphics2D g, MapView mv, Bounds bbox) {
-		if (segment != null) {
-			g.setColor(this.color);
-			g.setStroke(this.stroke);
-			Node firstNode = segment.getFirstNode();
-			Node secondNode = segment.getSecondNode();
+    @Override
+    public void paint(Graphics2D g, MapView mv, Bounds bbox) {
+        if (segment != null) {
+            g.setColor(this.color);
+            g.setStroke(this.stroke);
+            Node firstNode = segment.getFirstNode();
+            Node secondNode = segment.getSecondNode();
 
-			Line2D overlappingLine = new Line2D.Double(mv.getPoint(firstNode).getX(), mv.getPoint(firstNode).getY(), mv.getPoint(secondNode).getX(), mv
-					.getPoint(secondNode).getY());
-			g.draw(overlappingLine);
-		}
-	}
+            Line2D overlappingLine = new Line2D.Double(mv.getPoint(firstNode).getX(),
+                                                       mv.getPoint(firstNode).getY(),
+                                                       mv.getPoint(secondNode).getX(),
+                                                       mv.getPoint(secondNode).getY());
+            g.draw(overlappingLine);
+        }
+    }
 
-	public void setColor(Color color) {
-		this.color = color;
-	}
+    public void setColor(Color color) {
+        this.color = color;
+    }
 
-	public Color getColor() {
-		return color;
-	}
+    public Color getColor() {
+        return color;
+    }
 
-	public void setSegment(WaySegment segment) {
-		this.segment = segment;
-	}
+    public void setSegment(WaySegment segment) {
+        this.segment = segment;
+    }
 
-	public WaySegment getSegment() {
-		return this.segment;
-	}
+    public WaySegment getSegment() {
+        return this.segment;
+    }
 
 }
