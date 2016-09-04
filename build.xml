@@ -10,7 +10,7 @@
     <property name="plugin.description" value="Gives user more tools that facilitate aligning and rotation of buildings."/>
     <property name="plugin.icon" value="images/shapeToolsIcon.png"/>
     <property name="plugin.link" value="http://wiki.openstreetmap.org/wiki/JOSM/Plugins/ShapeTools"/>
-	<property name="version.entry.commit.revision" value="1210"/>
+	<property name="version.entry.commit.revision" value="1220"/>
     <!-- ** include targets that all plugins have in common ** -->
     <import file="../build-common.xml"/>
 </project>
