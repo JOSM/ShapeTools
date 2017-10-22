@@ -24,7 +24,7 @@ import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 import org.openstreetmap.josm.tools.Logging;
 
 /**
- * Event handler for all the plugin's opperations
+ * Event handler for all the plugin's operations
  *
  * @author Adrian_antochi
  *
@@ -118,21 +118,21 @@ public final class ShapeEvents {
                 if (mode != null) {
                     DrawableSegmentRoad road = ShapeMode.roadSegm;
                     if (road != null) {
-                        Logging.debug("AlignAllBuildings button pressed, non-null parameters found");
-                        double epsilon = Double.parseDouble(epsilonInput.getText());
-                        OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
-                        DataSet data = currentLayer.data;
-                        Collection<Way> selectedWays = data.getSelectedWays();
-                        for (Way way : selectedWays) {
-                            ShapeMath.alignUsingEpsilon(road.segment, way, epsilon);
-                            ShapeMode.cleanup();
-                            MainApplication.getMap().repaint();
+                        try {
+                            Logging.debug("AlignAllBuildings button pressed, non-null parameters found");
+                            double epsilon = Double.parseDouble(epsilonInput.getText());
+                            OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
+                            DataSet data = currentLayer.data;
+                            Collection<Way> selectedWays = data.getSelectedWays();
+                            for (Way way : selectedWays) {
+                                ShapeMath.alignUsingEpsilon(road.segment, way, epsilon);
+                                ShapeMode.cleanup();
+                                MainApplication.getMap().repaint();
+                            }
+                        } catch (NumberFormatException ex) {
+                            new Notification(tr("Please enter minimal distance in metres")).show();
                         }
-                    } else {
-                        Logging.trace("NULL PARAMETERS FOUND");
                     }
-                } else {
-                    Logging.trace("NULL PARAMETERS FOUND");
                 }
             }
         };
@@ -153,11 +153,7 @@ public final class ShapeEvents {
                         Logging.debug("closest nodes" + segm.getFirstNode() + " " + segm.getSecondNode());
                         MainApplication.getMap().mapView.addTemporaryLayer(dSegm);
                         MainApplication.getMap().repaint();
-                    } else {
-                        Logging.trace("NULL PARAMETERS FOUND");
                     }
-                } else {
-                    Logging.trace("NULL PARAMETERS FOUND");
                 }
             }
         };
@@ -175,11 +171,7 @@ public final class ShapeEvents {
                         Logging.debug("AlignButtonPressed, non-null parameters found");
                         ShapeMath.align(road.getSegment(), building.getSegment());
                         ShapeMode.cleanup();
-                    } else {
-                        Logging.trace("NULL PARAMETERS FOUND");
                     }
-                } else {
-                    Logging.trace("NULL PARAMETERS FOUND");
                 }
             }
         };

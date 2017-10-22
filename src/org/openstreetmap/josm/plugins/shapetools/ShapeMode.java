@@ -13,6 +13,7 @@ import org.openstreetmap.josm.data.osm.OsmPrimitive;
 import org.openstreetmap.josm.data.osm.WaySegment;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MapView;
+import org.openstreetmap.josm.tools.Logging;
 
 public class ShapeMode extends MapMode {
     static ButtonGroup group;
@@ -48,7 +49,7 @@ public class ShapeMode extends MapMode {
                             mapView.removeTemporaryLayer(buildingSegm);
                         }
                         buildingSegm = new DrawableSegmentBuilding(selectedSegment);
-                        System.out.println("SELECTED BUILDING SEGMENT " + buildingSegm);
+                        Logging.info("SELECTED BUILDING SEGMENT " + buildingSegm);
                         mapView.addTemporaryLayer(buildingSegm);
                     }
                     break;
@@ -58,7 +59,7 @@ public class ShapeMode extends MapMode {
                             mapView.removeTemporaryLayer(roadSegm);
                         }
                         roadSegm = new DrawableSegmentRoad(selectedSegment);
-                        System.out.println("SELECTED ROAD SEGMENT " + roadSegm);
+                        Logging.info("SELECTED ROAD SEGMENT " + roadSegm);
                         mapView.addTemporaryLayer(roadSegm);
                     }
                     break;
