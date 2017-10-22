@@ -12,11 +12,11 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.data.osm.DataSet;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.WaySegment;
+import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
 
 /**
@@ -94,7 +94,7 @@ public final class ShapeEvents {
         this.align = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                OsmDataLayer currentLayer = Main.getLayerManager().getEditLayer();
+                OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
                 DataSet data = currentLayer.data;
                 Collection<Way> selectedWays = data.getSelectedWays();
                 List<Way> wayList = new ArrayList<>();
@@ -117,13 +117,13 @@ public final class ShapeEvents {
                     if (road != null) {
                         System.out.println("AlignAllBuildings button pressed, non-null parameters found");
                         double epsilon = Double.parseDouble(epsilonInput.getText());
-                        OsmDataLayer currentLayer = Main.getLayerManager().getEditLayer();
+                        OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
                         DataSet data = currentLayer.data;
                         Collection<Way> selectedWays = data.getSelectedWays();
                         for (Way way : selectedWays) {
                             ShapeMath.alignUsingEpsilon(road.segment, way, epsilon);
                             ShapeMode.cleanup();
-                            Main.map.repaint();
+                            MainApplication.getMap().repaint();
                         }
                     } else {
                         System.out.println("NULL PARAMETERS FOUND");
@@ -148,8 +148,8 @@ public final class ShapeEvents {
                         WaySegment segm = ShapeMath.getClosestSegment(building.getSegment().way, road.segment);
                         DrawableSegment dSegm = new DrawableSegment(segm, Color.magenta);
                         System.out.println("closest nodes" + segm.getFirstNode() + " " + segm.getSecondNode());
-                        Main.map.mapView.addTemporaryLayer(dSegm);
-                        Main.map.repaint();
+                        MainApplication.getMap().mapView.addTemporaryLayer(dSegm);
+                        MainApplication.getMap().repaint();
                     } else {
                         System.out.println("NULL PARAMETERS FOUND");
                     }
@@ -213,7 +213,7 @@ public final class ShapeEvents {
                     System.out.println("CANNOT CONVERT JTEXT INPUT TO ANGLE");
                     ex.printStackTrace();
                 }
-                OsmDataLayer currentLayer = Main.getLayerManager().getEditLayer();
+                OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
                 DataSet data = currentLayer.data;
                 Collection<Node> selectedNodes = data.getSelectedNodes();
                 Collection<Way> selectedWays = data.getSelectedWays();

@@ -1,7 +1,6 @@
 // License: GPL. For details, see LICENSE file.
 package org.openstreetmap.josm.plugins.shapetools;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
@@ -22,7 +21,7 @@ public class ShapeToolsPlugin extends Plugin {
         if (newFrame != null) {
             System.out.println("MAP FRAME INIT");
             newFrame.addToggleDialog(new ShapePanelDialog());
-            shMode = new ShapeMode(Main.map);
+            shMode = new ShapeMode();
             shMode.enterMode();
         } else {
             shMode = null;

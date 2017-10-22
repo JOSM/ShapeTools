@@ -16,6 +16,8 @@ import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.WaySegment;
+import org.openstreetmap.josm.gui.MainApplication;
+
 /**
  * Different utilitarian functions
  * @author Adrian_antochi
@@ -192,7 +194,7 @@ public final class ShapeMath {
     public static void doRotate(Collection<Way> ways, Collection<Node> nodes, double angle) {
         SequenceCommand commands = new SequenceCommand("rotateCommand", avoidDuplicateNodesRotation(ways, nodes, angle));
         Main.main.undoRedo.add(commands);
-        Main.map.repaint();
+        repaint();
     }
 
     private static Collection<Command> avoidDuplicateNodesRotation(Collection<Way> ways, Collection<Node> nodes, double angle) {
@@ -232,7 +234,7 @@ public final class ShapeMath {
         System.out.println("Angle calculated from align() " + requiredAngle);
         SequenceCommand commands = new SequenceCommand("alignCommand", rotate(secondWay, requiredAngle, getCentroid(secondWay)));
         Main.main.undoRedo.add(commands);
-        Main.map.repaint();
+        repaint();
     }
 
     /**
@@ -257,7 +259,7 @@ public final class ShapeMath {
         SequenceCommand commands = new SequenceCommand("AlignCommand",
                 rotate(toRotateSegment.way, requiredAngle, getCentroid(toRotateSegment.way)));
         Main.main.undoRedo.add(commands);
-        Main.map.repaint();
+        repaint();
     }
 
     /**
@@ -282,7 +284,7 @@ public final class ShapeMath {
 
             SequenceCommand commands = new SequenceCommand("aligningUsingEpislon", rotate(building, requiredAngle, getCentroid(building)));
             Main.main.undoRedo.add(commands);
-            Main.map.repaint();
+            repaint();
         } else {
             System.out.println("NOPE, EPSILON TOO SMALL: " + epsilon);
         }
@@ -305,5 +307,9 @@ public final class ShapeMath {
             a += Math.PI;
         }
         return a;
+    }
+
+    private static void repaint() {
+        MainApplication.getMap().repaint(); // FIXME avoid complete repaint
     }
 }
