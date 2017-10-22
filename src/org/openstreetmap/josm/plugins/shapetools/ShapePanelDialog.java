@@ -13,9 +13,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
-import javax.swing.JTextField;
 
 import org.openstreetmap.josm.gui.dialogs.ToggleDialog;
+import org.openstreetmap.josm.gui.widgets.JosmTextField;
 
 /**
  * Main dialog for the plugin, toggles when the plugin is loaded
@@ -57,7 +57,8 @@ public class ShapePanelDialog extends ToggleDialog {
         gbc_comboBox.gridy = 2;
         dialogPane.add(directionComboBox, gbc_comboBox);
 
-        JTextField angleInput = new JTextField(tr("Input angle here"));
+        JosmTextField angleInput = new JosmTextField();
+        angleInput.setHint(tr("Input angle here"));
         GridBagConstraints gbc_textField = new GridBagConstraints();
         gbc_textField.insets = new Insets(0, 0, 5, 5);
         gbc_textField.fill = GridBagConstraints.HORIZONTAL;
@@ -128,7 +129,8 @@ public class ShapePanelDialog extends ToggleDialog {
         gbc_lblEpsilon.gridy = 7;
         dialogPane.add(labelEpsilon, gbc_lblEpsilon);
 
-        JTextField epsilonInput = new JTextField(tr("Input min distance"));
+        JosmTextField epsilonInput = new JosmTextField();
+        epsilonInput.setHint(tr("Input min distance"));
         GridBagConstraints gbc_textField_1 = new GridBagConstraints();
         gbc_textField_1.gridwidth = 5;
         gbc_textField_1.insets = new Insets(0, 0, 5, 5);

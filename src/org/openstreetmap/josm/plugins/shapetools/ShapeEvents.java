@@ -1,6 +1,8 @@
 // License: GPL. For details, see LICENSE file.
 package org.openstreetmap.josm.plugins.shapetools;
 
+import static org.openstreetmap.josm.tools.I18n.tr;
+
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,7 +19,9 @@ import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.WaySegment;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.gui.Notification;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
+import org.openstreetmap.josm.tools.Logging;
 
 /**
  * Event handler for all the plugin's opperations
@@ -94,8 +98,7 @@ public final class ShapeEvents {
         this.align = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
-                DataSet data = currentLayer.data;
+                DataSet data = MainApplication.getLayerManager().getEditDataSet();
                 Collection<Way> selectedWays = data.getSelectedWays();
                 List<Way> wayList = new ArrayList<>();
                 for (Way way : selectedWays) {
@@ -115,7 +118,7 @@ public final class ShapeEvents {
                 if (mode != null) {
                     DrawableSegmentRoad road = ShapeMode.roadSegm;
                     if (road != null) {
-                        System.out.println("AlignAllBuildings button pressed, non-null parameters found");
+                        Logging.debug("AlignAllBuildings button pressed, non-null parameters found");
                         double epsilon = Double.parseDouble(epsilonInput.getText());
                         OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
                         DataSet data = currentLayer.data;
@@ -126,10 +129,10 @@ public final class ShapeEvents {
                             MainApplication.getMap().repaint();
                         }
                     } else {
-                        System.out.println("NULL PARAMETERS FOUND");
+                        Logging.trace("NULL PARAMETERS FOUND");
                     }
                 } else {
-                    System.out.println("NULL PARAMETERS FOUND");
+                    Logging.trace("NULL PARAMETERS FOUND");
                 }
             }
         };
@@ -144,17 +147,17 @@ public final class ShapeEvents {
                     DrawableSegmentBuilding building = ShapeMode.buildingSegm;
                     DrawableSegmentRoad road = ShapeMode.roadSegm;
                     if (building != null && road != null) {
-                        System.out.println("NearestSegment button pressed, non-null parameters found");
+                        Logging.debug("NearestSegment button pressed, non-null parameters found");
                         WaySegment segm = ShapeMath.getClosestSegment(building.getSegment().way, road.segment);
                         DrawableSegment dSegm = new DrawableSegment(segm, Color.magenta);
-                        System.out.println("closest nodes" + segm.getFirstNode() + " " + segm.getSecondNode());
+                        Logging.debug("closest nodes" + segm.getFirstNode() + " " + segm.getSecondNode());
                         MainApplication.getMap().mapView.addTemporaryLayer(dSegm);
                         MainApplication.getMap().repaint();
                     } else {
-                        System.out.println("NULL PARAMETERS FOUND");
+                        Logging.trace("NULL PARAMETERS FOUND");
                     }
                 } else {
-                    System.out.println("NULL PARAMETERS FOUND");
+                    Logging.trace("NULL PARAMETERS FOUND");
                 }
             }
         };
@@ -169,65 +172,45 @@ public final class ShapeEvents {
                     DrawableSegmentBuilding building = ShapeMode.buildingSegm;
                     DrawableSegmentRoad road = ShapeMode.roadSegm;
                     if (building != null && road != null) {
-                        System.out.println("AlignButtonPressed, non-null parameters found");
+                        Logging.debug("AlignButtonPressed, non-null parameters found");
                         ShapeMath.align(road.getSegment(), building.getSegment());
                         ShapeMode.cleanup();
                     } else {
-                        System.out.println("NULL PARAMETERS FOUND");
+                        Logging.trace("NULL PARAMETERS FOUND");
                     }
                 } else {
-                    System.out.println("NULL PARAMETERS FOUND");
+                    Logging.trace("NULL PARAMETERS FOUND");
                 }
             }
         };
     }
 
     private void initRotate() {
-
-        rotate = new MouseListener() {
-            @Override
-            public void mouseReleased(MouseEvent e) {
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-
+        rotate = new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 double angle = 0;
                 try {
-                    angle = Double.parseDouble(angleInput.getText());
-                    angle = Math.toRadians(angle);
+                    angle = Math.toRadians(Double.parseDouble(angleInput.getText()));
                 } catch (NumberFormatException ex) {
-                    ex.printStackTrace();
+                    new Notification(tr("Please enter numeric angle in degrees")).show();
                 } catch (Throwable ex) {
-                    System.out.println("CANNOT CONVERT JTEXT INPUT TO ANGLE");
-                    ex.printStackTrace();
+                    Logging.error(ex);
                 }
                 OsmDataLayer currentLayer = MainApplication.getLayerManager().getEditLayer();
                 DataSet data = currentLayer.data;
                 Collection<Node> selectedNodes = data.getSelectedNodes();
                 Collection<Way> selectedWays = data.getSelectedWays();
                 if (directionComboBox.getSelectedIndex() == 0) {
-                    System.out.println("User requires clockwise rotation");
-                    System.out.println("Using angle: " + -angle);
+                    Logging.debug("User requires clockwise rotation");
+                    Logging.debug("Using angle: " + -angle);
                     ShapeMath.doRotate(selectedWays, selectedNodes, -angle);
                 } else if (directionComboBox.getSelectedIndex() == 1) {
-                    System.out.println("User requires antiClockwise rotation");
-                    System.out.println("Using angle: " + angle);
+                    Logging.debug("User requires antiClockwise rotation");
+                    Logging.debug("Using angle: " + angle);
                     ShapeMath.doRotate(selectedWays, selectedNodes, angle);
                 }
             }
         };
     }
-
 }

@@ -19,7 +19,6 @@ public class ShapeToolsPlugin extends Plugin {
     @Override
     public void mapFrameInitialized(MapFrame oldFrame, MapFrame newFrame) {
         if (newFrame != null) {
-            System.out.println("MAP FRAME INIT");
             newFrame.addToggleDialog(new ShapePanelDialog());
             shMode = new ShapeMode();
             shMode.enterMode();

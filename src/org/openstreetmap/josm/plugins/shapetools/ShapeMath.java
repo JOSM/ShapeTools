@@ -17,6 +17,7 @@ import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.WaySegment;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.tools.Logging;
 
 /**
  * Different utilitarian functions
@@ -192,13 +193,11 @@ public final class ShapeMath {
      * @param angle in degrees
      */
     public static void doRotate(Collection<Way> ways, Collection<Node> nodes, double angle) {
-        SequenceCommand commands = new SequenceCommand("rotateCommand", avoidDuplicateNodesRotation(ways, nodes, angle));
-        Main.main.undoRedo.add(commands);
-        repaint();
+        commitCommands("rotateCommand", avoidDuplicateNodesRotation(ways, nodes, angle));
     }
 
     private static Collection<Command> avoidDuplicateNodesRotation(Collection<Way> ways, Collection<Node> nodes, double angle) {
-        System.out.println("doRotate() called: rotating shapes by: " + angle);
+        Logging.info("rotating shapes by: " + angle);
         Set<Node> nodesSet = new HashSet<>();
         for (Way way : ways) {
             List<Node> wayNodes = way.getNodes();
@@ -231,10 +230,8 @@ public final class ShapeMath {
         double y3 = secondWay.getNode(0).getEastNorth().getY();
         double y4 = secondWay.getNode(1).getEastNorth().getY();
         double requiredAngle = Math.atan2(y2 - y1, x2 - x1) - Math.atan2(y4 - y3, x4 - x3);
-        System.out.println("Angle calculated from align() " + requiredAngle);
-        SequenceCommand commands = new SequenceCommand("alignCommand", rotate(secondWay, requiredAngle, getCentroid(secondWay)));
-        Main.main.undoRedo.add(commands);
-        repaint();
+        Logging.info("Angle calculated from align() " + requiredAngle);
+        commitCommands("alignCommand", rotate(secondWay, requiredAngle, getCentroid(secondWay)));
     }
 
     /**
@@ -253,13 +250,10 @@ public final class ShapeMath {
         double y4 = toRotateSegment.getSecondNode().getEastNorth().getY();
 
         double requiredAngle = Math.atan2(y2 - y1, x2 - x1) - Math.atan2(y4 - y3, x4 - x3);
-        System.out.println("Angle calculated from align() " + requiredAngle);
+        Logging.info("Angle calculated from align() " + requiredAngle);
 
         requiredAngle = normalise(requiredAngle);
-        SequenceCommand commands = new SequenceCommand("AlignCommand",
-                rotate(toRotateSegment.way, requiredAngle, getCentroid(toRotateSegment.way)));
-        Main.main.undoRedo.add(commands);
-        repaint();
+        commitCommands("AlignCommand", rotate(toRotateSegment.way, requiredAngle, getCentroid(toRotateSegment.way)));
     }
 
     /**
@@ -282,9 +276,7 @@ public final class ShapeMath {
 
             requiredAngle = normalise(requiredAngle);
 
-            SequenceCommand commands = new SequenceCommand("aligningUsingEpislon", rotate(building, requiredAngle, getCentroid(building)));
-            Main.main.undoRedo.add(commands);
-            repaint();
+            commitCommands("aligningUsingEpislon", rotate(building, requiredAngle, getCentroid(building)));
         } else {
             System.out.println("NOPE, EPSILON TOO SMALL: " + epsilon);
         }
@@ -309,7 +301,10 @@ public final class ShapeMath {
         return a;
     }
 
-    private static void repaint() {
-        MainApplication.getMap().repaint(); // FIXME avoid complete repaint
+    private static void commitCommands(String sequenceName, Collection<Command> commands) {
+        if (!commands.isEmpty()) {
+            Main.main.undoRedo.add(new SequenceCommand(sequenceName, commands));
+            MainApplication.getMap().repaint(); // FIXME avoid complete repaint
+        }
     }
 }
