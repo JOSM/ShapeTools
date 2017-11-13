@@ -2,6 +2,7 @@
 package org.openstreetmap.josm.plugins.shapetools;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.data.osm.WaySegment;
 import org.openstreetmap.josm.gui.MainApplication;
+import org.openstreetmap.josm.tools.Geometry;
 import org.openstreetmap.josm.tools.Logging;
 
 /**
@@ -40,10 +42,10 @@ public final class ShapeMath {
             WaySegment currentSegment = new WaySegment(fromThisway, i);
             EastNorth currentSegmentCentroid = getCentroid(currentSegment);
             Point p = new Point(currentSegmentCentroid.getX(), currentSegmentCentroid.getY());
-            Point x1 = new Point(regardingThisSegment.getFirstNode().getEastNorth().getX(),
-                                 regardingThisSegment.getFirstNode().getEastNorth().getY());
-            Point x2 = new Point(regardingThisSegment.getSecondNode().getEastNorth().getX(),
-                                 regardingThisSegment.getSecondNode().getEastNorth().getY());
+            EastNorth en1 = regardingThisSegment.getFirstNode().getEastNorth();
+            Point x1 = new Point(en1.getX(), en1.getY());
+            EastNorth en2 = regardingThisSegment.getSecondNode().getEastNorth();
+            Point x2 = new Point(en2.getX(), en2.getY());
             double distance = Point.distance(x1, x2, p);
 
             if (distance < maxDistance) {
@@ -62,24 +64,23 @@ public final class ShapeMath {
     public static WaySegment getClosestSegmentUsingEpsilon(Way fromThisway, WaySegment regardingThisSegment, double epsilon) {
         double maxDistance = Double.MAX_VALUE;
         WaySegment closestSegment = null;
-        System.out.println("input epsilon: " + epsilon);
+
         for (int i = 0; i < fromThisway.getNodesCount() - 1; i++) {
 
             WaySegment currentSegment = new WaySegment(fromThisway, i);
             EastNorth currentSegmentCentroid = getCentroid(currentSegment);
             Point p = new Point(currentSegmentCentroid.getX(), currentSegmentCentroid.getY());
-            Point x1 = new Point(regardingThisSegment.getFirstNode().getEastNorth().getX(),
-                                 regardingThisSegment.getFirstNode().getEastNorth().getY());
-            Point x2 = new Point(regardingThisSegment.getSecondNode().getEastNorth().getX(),
-                                 regardingThisSegment.getSecondNode().getEastNorth().getY());
+            EastNorth en1 = regardingThisSegment.getFirstNode().getEastNorth();
+            Point x1 = new Point(en1.getX(), en1.getY());
+            EastNorth en2 = regardingThisSegment.getSecondNode().getEastNorth();
+            Point x2 = new Point(en2.getX(), en2.getY());
             double distance = Point.distance(x1, x2, p);
-            System.out.println("Calculated distance: " + distance);
+
             if (distance < maxDistance && distance < epsilon) {
                 maxDistance = distance;
                 closestSegment = new WaySegment(fromThisway, i);
             }
         }
-        System.out.println("closest segment using epsilon returned: " + closestSegment);
         return closestSegment;
     }
 
@@ -110,7 +111,7 @@ public final class ShapeMath {
         for (Node node : wayNodes) {
             nodesSet.add(node);
         }
-        EastNorth allNodesCenter = ShapeMath.getCentroid(nodesSet);
+        EastNorth allNodesCenter = getCentroid(nodesSet);
         Iterator<Node> it = nodesSet.iterator();
         Collection<Command> totalCommands = new ArrayList<>();
         while (it.hasNext()) {
@@ -130,62 +131,30 @@ public final class ShapeMath {
         return new EastNorth(x, y);
     }
 
+    private static EastNorth getCentroid(List<Node> wayNodes) {
+        EastNorth center = Geometry.getCenter(wayNodes);
+        return center != null ? center : Geometry.getCentroid(wayNodes);
+    }
+
     /**
-     * @return the center-point of a way, calculated by taking the averange of all east and north coordinates of a way
+     * @return the center-point of a way, calculated by taking the average of all east and north coordinates of a way
      */
     public static EastNorth getCentroid(Way way) {
-        double x = 0, y = 0;
-        List<Node> wayNodes = way.getNodes();
-
-        if (way.isClosed()) {
-            for (int i = 0; i < wayNodes.size() - 1; i++) {
-                x += wayNodes.get(i).getEastNorth().getX();
-                y += wayNodes.get(i).getEastNorth().getY();
-            }
-            x = x / (way.getNodesCount() - 1);
-            y = y / (way.getNodesCount() - 1);
-            return new EastNorth(x, y);
-        }
-
-        for (int i = 0; i < wayNodes.size(); i++) {
-            x += wayNodes.get(i).getEastNorth().getX();
-            y += wayNodes.get(i).getEastNorth().getY();
-        }
-        x = x / way.getNodesCount();
-        y = y / way.getNodesCount();
-
-        return new EastNorth(x, y);
+        return getCentroid(way.getNodes());
     }
 
     /**
      * @return the center-point of a way, calculated by taking the averange of all east and north coordinates of a way
      */
     public static EastNorth getCentroid(WaySegment segment) {
-        double x = 0, y = 0;
-
-        x = x + segment.getFirstNode().getEastNorth().getX() + segment.getSecondNode().getEastNorth().getX();
-        y = y + segment.getFirstNode().getEastNorth().getY() + segment.getSecondNode().getEastNorth().getY();
-
-        x = x / 2.0;
-        y = y / 2.0;
-
-        return new EastNorth(x, y);
+        return getCentroid(Arrays.asList(segment.getFirstNode(), segment.getSecondNode()));
     }
 
     /**
      * @return center-point of a set of nodes
      */
     public static EastNorth getCentroid(Set<Node> nodes) {
-        Iterator<Node> i = nodes.iterator();
-        double x = 0, y = 0;
-        while (i.hasNext()) {
-            Node currentNode = i.next();
-            x += currentNode.getEastNorth().getX();
-            y += currentNode.getEastNorth().getY();
-        }
-        x = x / nodes.size();
-        y = y / nodes.size();
-        return new EastNorth(x, y);
+        return getCentroid(new ArrayList<>(nodes));
     }
 
     /**
@@ -208,7 +177,7 @@ public final class ShapeMath {
         for (Node node : nodes) {
             nodesSet.add(node);
         }
-        EastNorth allNodesCenter = ShapeMath.getCentroid(nodesSet);
+        EastNorth allNodesCenter = getCentroid(nodesSet);
         Iterator<Node> i = nodesSet.iterator();
         Collection<Command> commands = new ArrayList<>();
         while (i.hasNext()) {
@@ -217,20 +186,29 @@ public final class ShapeMath {
         return commands;
     }
 
+    private static double computeAngle(Node n1, Node n2, Node n3, Node n4) {
+        EastNorth en1 = n1.getEastNorth();
+        EastNorth en2 = n2.getEastNorth();
+        EastNorth en3 = n3.getEastNorth();
+        EastNorth en4 = n4.getEastNorth();
+        double x1 = en1.getX();
+        double x2 = en2.getX();
+        double x3 = en3.getX();
+        double x4 = en4.getX();
+        double y1 = en1.getY();
+        double y2 = en2.getY();
+        double y3 = en3.getY();
+        double y4 = en4.getY();
+        return Math.atan2(y2 - y1, x2 - x1) - Math.atan2(y4 - y3, x4 - x3);
+    }
+
     /**
      * Aligns second way to the first one
      */
     public static void align(Way firstWay, Way secondWay) {
-        double x1 = firstWay.getNode(0).getEastNorth().getX();
-        double x2 = firstWay.getNode(1).getEastNorth().getX();
-        double x3 = secondWay.getNode(0).getEastNorth().getX();
-        double x4 = secondWay.getNode(1).getEastNorth().getX();
-        double y1 = firstWay.getNode(0).getEastNorth().getY();
-        double y2 = firstWay.getNode(1).getEastNorth().getY();
-        double y3 = secondWay.getNode(0).getEastNorth().getY();
-        double y4 = secondWay.getNode(1).getEastNorth().getY();
-        double requiredAngle = Math.atan2(y2 - y1, x2 - x1) - Math.atan2(y4 - y3, x4 - x3);
-        Logging.info("Angle calculated from align() " + requiredAngle);
+        double requiredAngle = computeAngle(
+                firstWay.getNode(0), firstWay.getNode(1),
+                secondWay.getNode(0), secondWay.getNode(1));
         commitCommands("alignCommand", rotate(secondWay, requiredAngle, getCentroid(secondWay)));
     }
 
@@ -240,19 +218,9 @@ public final class ShapeMath {
      * @param toRotateSegment segment(wall) of the building that needs to be rotated
      */
     public static void align(WaySegment roadSegment, WaySegment toRotateSegment) {
-        double x1 = roadSegment.getFirstNode().getEastNorth().getX();
-        double x2 = roadSegment.getSecondNode().getEastNorth().getX();
-        double x3 = toRotateSegment.getFirstNode().getEastNorth().getX();
-        double x4 = toRotateSegment.getSecondNode().getEastNorth().getX();
-        double y1 = roadSegment.getFirstNode().getEastNorth().getY();
-        double y2 = roadSegment.getSecondNode().getEastNorth().getY();
-        double y3 = toRotateSegment.getFirstNode().getEastNorth().getY();
-        double y4 = toRotateSegment.getSecondNode().getEastNorth().getY();
-
-        double requiredAngle = Math.atan2(y2 - y1, x2 - x1) - Math.atan2(y4 - y3, x4 - x3);
-        Logging.info("Angle calculated from align() " + requiredAngle);
-
-        requiredAngle = normalise(requiredAngle);
+        double requiredAngle = normalise(computeAngle(
+                roadSegment.getFirstNode(), roadSegment.getSecondNode(),
+                toRotateSegment.getFirstNode(), toRotateSegment.getSecondNode()));
         commitCommands("AlignCommand", rotate(toRotateSegment.way, requiredAngle, getCentroid(toRotateSegment.way)));
     }
 
@@ -260,25 +228,14 @@ public final class ShapeMath {
      * Aligns the building only if the distance between the closest wall of the building and it's closest road-segment is smaller than epsilon
      */
     public static void alignUsingEpsilon(WaySegment roadSegment, Way building, double epsilon) {
-        WaySegment closestSegment = ShapeMath.getClosestSegmentUsingEpsilon(building, roadSegment, epsilon);
+        WaySegment closestSegment = getClosestSegmentUsingEpsilon(building, roadSegment, epsilon);
         if (closestSegment != null) {
-            double x1 = roadSegment.getFirstNode().getEastNorth().getX();
-            double x2 = roadSegment.getSecondNode().getEastNorth().getX();
-            double x3 = closestSegment.getFirstNode().getEastNorth().getX();
-            double x4 = closestSegment.getSecondNode().getEastNorth().getX();
-            double y1 = roadSegment.getFirstNode().getEastNorth().getY();
-            double y2 = roadSegment.getSecondNode().getEastNorth().getY();
-            double y3 = closestSegment.getFirstNode().getEastNorth().getY();
-            double y4 = closestSegment.getSecondNode().getEastNorth().getY();
-
-            double requiredAngle = Math.atan2(y2 - y1, x2 - x1) - Math.atan2(y4 - y3, x4 - x3);
-            System.out.println("Angle calculated from align() " + requiredAngle);
-
-            requiredAngle = normalise(requiredAngle);
-
-            commitCommands("aligningUsingEpislon", rotate(building, requiredAngle, getCentroid(building)));
+            double requiredAngle = normalise(computeAngle(
+                    roadSegment.getFirstNode(), roadSegment.getSecondNode(),
+                    closestSegment.getFirstNode(), closestSegment.getSecondNode()));
+            commitCommands("aligningUsingEpsilon", rotate(building, requiredAngle, getCentroid(building)));
         } else {
-            System.out.println("NOPE, EPSILON TOO SMALL: " + epsilon);
+            Logging.warn("NOPE, EPSILON TOO SMALL: " + epsilon);
         }
     }
 

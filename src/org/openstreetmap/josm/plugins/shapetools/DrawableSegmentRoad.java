@@ -17,7 +17,6 @@ public class DrawableSegmentRoad extends DrawableSegment {
      * @param segment way segment
      */
     public DrawableSegmentRoad(WaySegment segment) {
-        super(segment);
-        this.color = Color.YELLOW;
+        super(segment, Color.YELLOW);
     }
 }
