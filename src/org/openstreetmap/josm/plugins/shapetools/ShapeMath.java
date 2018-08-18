@@ -9,10 +9,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.openstreetmap.josm.Main;
 import org.openstreetmap.josm.command.ChangeCommand;
 import org.openstreetmap.josm.command.Command;
 import org.openstreetmap.josm.command.SequenceCommand;
+import org.openstreetmap.josm.data.UndoRedoHandler;
 import org.openstreetmap.josm.data.coor.EastNorth;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
@@ -260,7 +260,7 @@ public final class ShapeMath {
 
     private static void commitCommands(String sequenceName, Collection<Command> commands) {
         if (!commands.isEmpty()) {
-            Main.main.undoRedo.add(new SequenceCommand(sequenceName, commands));
+            UndoRedoHandler.getInstance().add(new SequenceCommand(sequenceName, commands));
             MainApplication.getMap().repaint(); // FIXME avoid complete repaint
         }
     }
