@@ -45,7 +45,7 @@ public class DrawableSegment implements MapViewPaintable {
 
     @Override
     public void paint(Graphics2D g, MapView mv, Bounds bbox) {
-        if (segment != null) {
+        if (segment != null && segment.way.getNodesCount() > 1) {
             g.setColor(color);
             g.setStroke(stroke);
 
