@@ -15,9 +15,9 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 import org.openstreetmap.josm.data.osm.DataSet;
+import org.openstreetmap.josm.data.osm.IWaySegment;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
-import org.openstreetmap.josm.data.osm.WaySegment;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.Notification;
 import org.openstreetmap.josm.gui.layer.OsmDataLayer;
@@ -148,7 +148,7 @@ public final class ShapeEvents {
                     DrawableSegmentRoad road = ShapeMode.roadSegm;
                     if (building != null && road != null) {
                         Logging.debug("NearestSegment button pressed, non-null parameters found");
-                        WaySegment segm = ShapeMath.getClosestSegment(building.getSegment().way, road.segment);
+                        IWaySegment<Node, Way> segm = ShapeMath.getClosestSegment(building.getSegment().getWay(), road.segment);
                         DrawableSegment dSegm = new DrawableSegment(segm, Color.magenta);
                         Logging.debug("closest nodes" + segm.getFirstNode() + " " + segm.getSecondNode());
                         MainApplication.getMap().mapView.addTemporaryLayer(dSegm);

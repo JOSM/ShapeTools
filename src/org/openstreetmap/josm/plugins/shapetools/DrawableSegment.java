@@ -9,7 +9,9 @@ import java.awt.Stroke;
 import java.awt.geom.Line2D;
 
 import org.openstreetmap.josm.data.Bounds;
-import org.openstreetmap.josm.data.osm.WaySegment;
+import org.openstreetmap.josm.data.osm.IWaySegment;
+import org.openstreetmap.josm.data.osm.Node;
+import org.openstreetmap.josm.data.osm.Way;
 import org.openstreetmap.josm.gui.MapView;
 import org.openstreetmap.josm.gui.layer.MapViewPaintable;
 
@@ -19,7 +21,7 @@ import org.openstreetmap.josm.gui.layer.MapViewPaintable;
  */
 public class DrawableSegment implements MapViewPaintable {
 
-    protected final WaySegment segment;
+    protected final IWaySegment<Node, Way> segment;
     protected final Color color;
     protected final Stroke stroke;
 
@@ -27,7 +29,7 @@ public class DrawableSegment implements MapViewPaintable {
      * Constructs a new {@code DrawableSegment}.
      * @param segment way segment
      */
-    public DrawableSegment(WaySegment segment) {
+    public DrawableSegment(IWaySegment<Node, Way> segment) {
         this(segment, Color.WHITE);
     }
 
@@ -36,7 +38,7 @@ public class DrawableSegment implements MapViewPaintable {
      * @param segment way segment
      * @param color color
      */
-    public DrawableSegment(WaySegment segment, Color color) {
+    public DrawableSegment(IWaySegment<Node, Way> segment, Color color) {
         int strokeThickness = 3;
         this.segment = segment;
         this.color = color;
@@ -45,7 +47,7 @@ public class DrawableSegment implements MapViewPaintable {
 
     @Override
     public void paint(Graphics2D g, MapView mv, Bounds bbox) {
-        if (segment != null && segment.way.getNodesCount() > 1) {
+        if (segment != null && segment.getWay().getNodesCount() > 1) {
             g.setColor(color);
             g.setStroke(stroke);
 
@@ -61,7 +63,7 @@ public class DrawableSegment implements MapViewPaintable {
         return color;
     }
 
-    public WaySegment getSegment() {
+    public IWaySegment<Node, Way> getSegment() {
         return segment;
     }
 }
