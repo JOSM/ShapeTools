@@ -14,9 +14,9 @@ import org.openstreetmap.josm.command.Command;
 import org.openstreetmap.josm.command.SequenceCommand;
 import org.openstreetmap.josm.data.UndoRedoHandler;
 import org.openstreetmap.josm.data.coor.EastNorth;
+import org.openstreetmap.josm.data.osm.IWaySegment;
 import org.openstreetmap.josm.data.osm.Node;
 import org.openstreetmap.josm.data.osm.Way;
-import org.openstreetmap.josm.data.osm.WaySegment;
 import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.tools.Geometry;
 import org.openstreetmap.josm.tools.Logging;
@@ -34,12 +34,12 @@ public final class ShapeMath {
     /**
      * @return closest segment contained in the way, regarding the segment
      */
-    public static WaySegment getClosestSegment(Way fromThisway, WaySegment regardingThisSegment) {
+    public static IWaySegment<Node, Way> getClosestSegment(Way fromThisway, IWaySegment<Node, Way> regardingThisSegment) {
         double maxDistance = Double.MAX_VALUE;
-        WaySegment closestSegment = null;
+        IWaySegment<Node, Way> closestSegment = null;
         for (int i = 0; i < fromThisway.getNodesCount() - 1; i++) {
 
-            WaySegment currentSegment = new WaySegment(fromThisway, i);
+            IWaySegment<Node, Way> currentSegment = new IWaySegment<>(fromThisway, i);
             EastNorth currentSegmentCentroid = getCentroid(currentSegment);
             Point p = new Point(currentSegmentCentroid.getX(), currentSegmentCentroid.getY());
             EastNorth en1 = regardingThisSegment.getFirstNode().getEastNorth();
@@ -50,7 +50,7 @@ public final class ShapeMath {
 
             if (distance < maxDistance) {
                 maxDistance = distance;
-                closestSegment = new WaySegment(fromThisway, i);
+                closestSegment = new IWaySegment<>(fromThisway, i);
             }
         }
         return closestSegment;
@@ -61,13 +61,13 @@ public final class ShapeMath {
      * @return closest segment contained in the way,
      *         regarding the segment if the distance between the two is smaller than epsilon, otherwise returns null
      */
-    public static WaySegment getClosestSegmentUsingEpsilon(Way fromThisway, WaySegment regardingThisSegment, double epsilon) {
+    public static IWaySegment<Node, Way> getClosestSegmentUsingEpsilon(Way fromThisway, IWaySegment<Node, Way> regardingThisSegment, double epsilon) {
         double maxDistance = Double.MAX_VALUE;
-        WaySegment closestSegment = null;
+        IWaySegment<Node, Way> closestSegment = null;
 
         for (int i = 0; i < fromThisway.getNodesCount() - 1; i++) {
 
-            WaySegment currentSegment = new WaySegment(fromThisway, i);
+            IWaySegment<Node, ?> currentSegment = new IWaySegment<>(fromThisway, i);
             EastNorth currentSegmentCentroid = getCentroid(currentSegment);
             Point p = new Point(currentSegmentCentroid.getX(), currentSegmentCentroid.getY());
             EastNorth en1 = regardingThisSegment.getFirstNode().getEastNorth();
@@ -78,7 +78,7 @@ public final class ShapeMath {
 
             if (distance < maxDistance && distance < epsilon) {
                 maxDistance = distance;
-                closestSegment = new WaySegment(fromThisway, i);
+                closestSegment = new IWaySegment<>(fromThisway, i);
             }
         }
         return closestSegment;
@@ -146,7 +146,7 @@ public final class ShapeMath {
     /**
      * @return the center-point of a way, calculated by taking the averange of all east and north coordinates of a way
      */
-    public static EastNorth getCentroid(WaySegment segment) {
+    public static EastNorth getCentroid(IWaySegment<Node, ?> segment) {
         return getCentroid(Arrays.asList(segment.getFirstNode(), segment.getSecondNode()));
     }
 
@@ -217,18 +217,18 @@ public final class ShapeMath {
      * @param roadSegment segment of the road
      * @param toRotateSegment segment(wall) of the building that needs to be rotated
      */
-    public static void align(WaySegment roadSegment, WaySegment toRotateSegment) {
+    public static void align(IWaySegment<Node, Way> roadSegment, IWaySegment<Node, Way> toRotateSegment) {
         double requiredAngle = normalise(computeAngle(
                 roadSegment.getFirstNode(), roadSegment.getSecondNode(),
                 toRotateSegment.getFirstNode(), toRotateSegment.getSecondNode()));
-        commitCommands("AlignCommand", rotate(toRotateSegment.way, requiredAngle, getCentroid(toRotateSegment.way)));
+        commitCommands("AlignCommand", rotate(toRotateSegment.getWay(), requiredAngle, getCentroid(toRotateSegment.getWay())));
     }
 
     /**
      * Aligns the building only if the distance between the closest wall of the building and it's closest road-segment is smaller than epsilon
      */
-    public static void alignUsingEpsilon(WaySegment roadSegment, Way building, double epsilon) {
-        WaySegment closestSegment = getClosestSegmentUsingEpsilon(building, roadSegment, epsilon);
+    public static void alignUsingEpsilon(IWaySegment<Node, Way> roadSegment, Way building, double epsilon) {
+        IWaySegment<Node, Way> closestSegment = getClosestSegmentUsingEpsilon(building, roadSegment, epsilon);
         if (closestSegment != null) {
             double requiredAngle = normalise(computeAngle(
                     roadSegment.getFirstNode(), roadSegment.getSecondNode(),
