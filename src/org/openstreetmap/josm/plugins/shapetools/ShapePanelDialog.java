@@ -165,6 +165,5 @@ public class ShapePanelDialog extends ToggleDialog {
         dialogPane.add(lblError, gbc_lblNimicBine);
 
         createLayout(dialogPane, false, null);
-
     }
 }

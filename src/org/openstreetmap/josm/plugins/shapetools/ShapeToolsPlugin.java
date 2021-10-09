@@ -5,6 +5,9 @@ import org.openstreetmap.josm.gui.MapFrame;
 import org.openstreetmap.josm.plugins.Plugin;
 import org.openstreetmap.josm.plugins.PluginInformation;
 
+/**
+ * ShapeTools plugin.
+ */
 public class ShapeToolsPlugin extends Plugin {
     private static ShapeMode shMode;
 

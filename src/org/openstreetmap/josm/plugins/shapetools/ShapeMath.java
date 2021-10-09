@@ -61,7 +61,8 @@ public final class ShapeMath {
      * @return closest segment contained in the way,
      *         regarding the segment if the distance between the two is smaller than epsilon, otherwise returns null
      */
-    public static IWaySegment<Node, Way> getClosestSegmentUsingEpsilon(Way fromThisway, IWaySegment<Node, Way> regardingThisSegment, double epsilon) {
+    public static IWaySegment<Node, Way> getClosestSegmentUsingEpsilon(
+            Way fromThisway, IWaySegment<Node, Way> regardingThisSegment, double epsilon) {
         double maxDistance = Double.MAX_VALUE;
         IWaySegment<Node, Way> closestSegment = null;
 

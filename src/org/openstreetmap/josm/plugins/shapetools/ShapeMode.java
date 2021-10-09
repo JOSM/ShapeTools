@@ -2,8 +2,7 @@
 package org.openstreetmap.josm.plugins.shapetools;
 
 import java.awt.Cursor;
-import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 
 import javax.swing.ButtonGroup;
@@ -15,6 +14,9 @@ import org.openstreetmap.josm.gui.MainApplication;
 import org.openstreetmap.josm.gui.MapView;
 import org.openstreetmap.josm.tools.Logging;
 
+/**
+ * ShapeTools map mode.
+ */
 public class ShapeMode extends MapMode {
     static ButtonGroup group;
     static DrawableSegmentBuilding buildingSegm;
@@ -36,11 +38,10 @@ public class ShapeMode extends MapMode {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (e.getButton() == MouseEvent.BUTTON1) {
-            boolean ctrlPressed = (e.getModifiers() & ActionEvent.CTRL_MASK) != 0;
-            boolean altPressed = (e.getModifiers() & (ActionEvent.ALT_MASK | InputEvent.ALT_GRAPH_MASK)) != 0;
+            updateKeyModifiers(e);
             MapView mapView = MainApplication.getMap().mapView;
 
-            WaySegment selectedSegment = mapView.getNearestWaySegment(new java.awt.Point(e.getX(), e.getY()), OsmPrimitive::isUsable);
+            WaySegment selectedSegment = mapView.getNearestWaySegment(new Point(e.getX(), e.getY()), OsmPrimitive::isUsable);
             if (group != null) {
                 switch (group.getSelection().getMnemonic()) {
                 case 0:
@@ -69,7 +70,7 @@ public class ShapeMode extends MapMode {
                     break;
                 }
             }
-            if (ctrlPressed && altPressed) {
+            if (ctrl && alt) {
                 cleanup();
             }
         }
