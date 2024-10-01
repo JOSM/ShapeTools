@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project name="ShapeTools" default="dist" basedir=".">
-    <!-- enter the SVN commit message -->
-    <property name="commit.message" value="ShapeTools: update for compatibility with JOSM r17896"/>
     <!-- enter the *lowest* JOSM version this plugin is currently compatible with -->
-    <property name="plugin.main.version" value="18221"/>
+    <property name="plugin.main.version" value="19044"/>
 
     <property name="plugin.author" value="Antochi Adrian and Trifan Adrian"/>
     <property name="plugin.class" value="org.openstreetmap.josm.plugins.shapetools.ShapeToolsPlugin"/>
     <property name="plugin.description" value="Gives user more tools that facilitate aligning and rotation of buildings."/>
     <property name="plugin.icon" value="images/shapeToolsIcon.png"/>
     <property name="plugin.link" value="https://wiki.openstreetmap.org/wiki/JOSM/Plugins/ShapeTools"/>
-	<property name="version.entry.commit.revision" value="1250"/>
 
 	<target name="additional-manifest">
         <manifest file="MANIFEST" mode="update">
             <attribute name="12636_Plugin-Url" value="v1.2.3;https://github.com/JOSM/ShapeTools/releases/download/v1.2.3/ShapeTools.jar" />
             <attribute name="14153_Plugin-Url" value="v1.2.4;https://github.com/JOSM/ShapeTools/releases/download/v1.2.4/ShapeTools.jar" />
             <attribute name="17896_Plugin-Url" value="v1.2.5;https://github.com/JOSM/ShapeTools/releases/download/v1.2.5/ShapeTools.jar" />
+            <attribute name="18221_Plugin-Url" value="v1.2.7;https://github.com/JOSM/ShapeTools/releases/download/v1.2.7/ShapeTools.jar" />
         </manifest>
     </target>
 
